@@ -58,7 +58,7 @@ body {
 }
 
 .result::selection {
-    color: orange;
+    color: green;
     background: gray;
 }
 .material-icons {
@@ -109,7 +109,7 @@ body {
 }
 
 .btn:focus {
-    outline: 2px solid #f5940f;
+    outline: 2px solid green;
     outline-offset: 2px;
 }
 
@@ -120,6 +120,19 @@ body {
     flex-grow: 1;
   }
 
-.btn:nth-of-type(4), .btn:nth-of-type(8), .btn:nth-of-type(12), .btn:nth-of-type(16), .btn:nth-of-type(19){
-    color: #f5940f;
+.btn:nth-of-type(2), .btn:nth-of-type(3), .btn:nth-of-type(4), .btn:nth-of-type(8), .btn:nth-of-type(12), .btn:nth-of-type(16), .btn:nth-of-type(19){
+    color: green;
+    background-color: rgba(85, 85, 85, 0.26);
+
   }
+
+#equal {
+    background-color: green;
+    color: white;
+  }
+
+#clear {
+    color: red;
+    background-color: rgba(85, 85, 85, 0.26);
+
+}
