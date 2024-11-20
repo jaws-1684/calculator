@@ -2,6 +2,7 @@ const displayResult = document.querySelector('.result');
     displayResult.addEventListener('dragstart', (event) => event.preventDefault());
 
  
+keyboardSupport()
 
 
 function add (a ,b) {
@@ -106,7 +107,6 @@ function populateDisplay() {
 
 
 populateDisplay()
-keyboardSupport();
 
 function signToggle() {
     const sign = document.querySelector('#sign-toggle');
@@ -173,6 +173,23 @@ function clearResultBox () {
 
 clearResultBox()
 
+function deleteLastChar () {
+        const backspaceButton = document.querySelector('#backspace');
+        backspaceButton.addEventListener('dragstart', (event) => event.preventDefault());
+        backspaceButton.addEventListener('selectstart', (event) => event.preventDefault());
+        
+        backspaceButton.addEventListener('click', () => {
+                if (operator === '') {
+                firstNumber = firstNumber.slice(0, -1);
+                displayResult.textContent = firstNumber || '0';
+            } else {
+                secondNumber = secondNumber.slice(0, -1);
+                displayResult.textContent = secondNumber || '0';
+            }
+        });
+    }
+
+
 deleteLastChar()
 
 function preventSelect () {
@@ -185,7 +202,41 @@ function preventSelect () {
 
 preventSelect()
 
-// function keyboardSupport() {
-  
-// }
+function keyboardSupport() {
+    window.addEventListener('keydown', function(event) {
+        let targetKey = event.key;
+        let nums = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+        let oper = ['+', '/', '-', '*', '%']
 
+        switch(targetKey) {
+            case 'Enter': 
+                const equalButton = document.querySelector('#equal');
+                equalButton.click();
+                equalButton.focus();
+                break;
+            case '.': 
+                const decimalButton = document.querySelector('#decimal');
+                decimalButton.click();
+                decimalButton.focus();
+                break;
+            case 'Escape': 
+                const clearButton = document.querySelector('#clear');
+                clearButton.click();
+                clearButton.focus();
+                break;
+        }
+
+
+        
+            if(nums.includes(targetKey)) {
+               let keyNums = document.getElementById(targetKey)
+               keyNums.click()
+               keyNums.focus()
+            } else if (oper.includes(targetKey)) {
+                let keyOper = document.getElementById(targetKey)
+                keyOper.click()
+                keyOper.focus()
+            }
+        event.preventDefault();  
+    });
+};
