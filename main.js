@@ -224,18 +224,28 @@ function keyboardSupport() {
                 clearButton.click();
                 clearButton.focus();
                 break;
+            case 'Backspace':
+                    let backSpace = document.querySelector('#backspace');
+                    backSpace.style.color = 'red';
+                    backSpace.click();
+                    setTimeout(() => {
+                        backSpace.style.color = '';
+                    }, 300);
+                    
+                    break;
+                
+                
         }
-
 
         
             if(nums.includes(targetKey)) {
-               let keyNums = document.getElementById(targetKey)
-               keyNums.click()
-               keyNums.focus()
+               let keyNums = document.getElementById(targetKey);
+               keyNums.click();
+               keyNums.focus();
             } else if (oper.includes(targetKey)) {
                 let keyOper = document.getElementById(targetKey)
-                keyOper.click()
-                keyOper.focus()
+                keyOper.click();
+                keyOper.focus();
             }
         event.preventDefault();  
     });
