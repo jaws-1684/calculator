@@ -12,6 +12,8 @@ body {
     font-weight: 900;
     line-height: 1.5;
     background: #5e6b7e;
+    
+    
 }
 
 .screen {
@@ -21,6 +23,8 @@ body {
     align-items: center;
     justify-content: center;
     margin: 0 auto;
+    
+  
     
 }
 
@@ -34,7 +38,6 @@ body {
     align-items: center;
     border-radius: 30px;
     
-   
 }
 
 .box {
@@ -51,12 +54,18 @@ body {
 .result {
     margin-left: 10px;
     font-size: 70px;
+    overflow: hidden;
 }
 
+.result::selection {
+    color: orange;
+    background: gray;
+}
 .material-icons {
    margin-right: 10px;
    padding-left: 20px;
    font-size: 40px;
+   cursor: pointer;
 }
 
 .material-icons:hover{
@@ -71,6 +80,7 @@ body {
     flex-wrap: wrap;
     gap: 10px;
     width: 390px;
+    
    
 
 }
@@ -85,12 +95,24 @@ body {
     justify-content: center;
     align-items: center;
     color: white;
+    border: none;
+    background-color: #283345;
     box-shadow: 0 0 5px rgba(255, 255, 255, 0.4);
+    font-size: 40px;
+    font-style: bold;
+    font-family: 'Roboto', sans-serif;
+    cursor: pointer;
 }
 
 .btn:hover {
     background: radial-gradient(circle, #aca8a6, #666565);
 }
+
+.btn:focus {
+    outline: 2px solid #f5940f;
+    outline-offset: 2px;
+}
+
 
 
 .btn:nth-of-type(17) {
