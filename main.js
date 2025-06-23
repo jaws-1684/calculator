@@ -1,8 +1,25 @@
 const displayResult = document.querySelector('.result');
-    displayResult.addEventListener('dragstart', (event) => event.preventDefault());
+displayResult.addEventListener('dragstart', (event) => event.preventDefault());
+const operators = document.querySelectorAll('.btn.operand');
+const nums = document.querySelectorAll('.btn.num');
+const decimal = document.querySelector('#decimal');
 
+let firstNumber = '';
+let secondNumber = '';
+let operator = '';
+let total = ''; 
  
-keyboardSupport()
+function runCalculator() {
+    populateDisplay()
+    keyboardSupport()
+    signToggle();
+    deleteLastChar()
+    calculate()
+    clearResultBox()
+    preventSelect()
+}
+
+runCalculator()
 
 
 function add (a ,b) {
@@ -31,9 +48,6 @@ function remainder(a, b) {
     return a % b;
 };
 
-let firstNumber = '';
-let operator = '';
-let secondNumber = '';
 
 
 function operate (operator, firstNumber, secondNumber) {
@@ -48,130 +62,81 @@ function operate (operator, firstNumber, secondNumber) {
 
 };
 
-let calculationComplete = false; 
+
 
 function populateDisplay() {
-    const nums = document.querySelectorAll('.btn.num');
-    const operators = document.querySelectorAll('.btn.operand');
-    const decimal = document.querySelector('#decimal');
-  
 
-    nums.forEach(btn => {
-        btn.addEventListener('click', (event) => {
-            const content = event.target.textContent;
+        nums.forEach(clickNumber)
+        operators.forEach(clickOperator)
 
-            
-            if (calculationComplete) {
-                firstNumber = '';
-                calculationComplete = false;
-            }
-
+        decimal.addEventListener('click', () => {
+          
             if (operator === '') {
-                firstNumber += content;
-                displayResult.textContent = firstNumber;
+                if (!firstNumber.includes('.')) {
+                    firstNumber += '.';
+                    displayResult.textContent = firstNumber;
+                }
             } else {
-                secondNumber += content;
-                displayResult.textContent = secondNumber;
+                if (!secondNumber.includes('.')) {
+                    secondNumber += '.';
+                    displayResult.textContent = secondNumber;
+                }
             }
         });
-    });
-
-    operators.forEach(operatorButton => {
-        operatorButton.addEventListener('click', (event) => {
-            if (calculationComplete) {
-                calculationComplete = false;
-            }
-            operator = event.target.textContent;
-        });
-    });
-
-    decimal.addEventListener('click', () => {
-        if (calculationComplete) {
-            firstNumber = '';
-            calculationComplete = false;
-        }
-
-        if (operator === '') {
-            if (!firstNumber.includes('.')) {
-                firstNumber += '.';
-                displayResult.textContent = firstNumber;
-            }
-        } else {
-            if (!secondNumber.includes('.')) {
-                secondNumber += '.';
-                displayResult.textContent = secondNumber;
-            }
-        }
-    });
 }
 
 
-populateDisplay()
+
+
 
 function signToggle() {
     const sign = document.querySelector('#sign-toggle');
     sign.addEventListener('click', () => {
-        let currentValue = parseFloat(displayResult.textContent);
+        let currentValue = Number(displayResult.textContent);
         displayResult.textContent = currentValue * -1;
     });
 }
 
-signToggle();
+
 
 function calculate() {
     const equal = document.querySelector("#equal");
     equal.addEventListener('click', () => {
         if (firstNumber !== '' && secondNumber !== '' && operator !== '') {
-            const num1 = parseFloat(firstNumber);
-            const num2 = parseFloat(secondNumber);
+            const num1 = Number(firstNumber);
+            const num2 = Number(secondNumber);
 
-            const operResult = operate(operator, num1, num2);
+            total = operate(operator, num1, num2);
 
-            displayResult.textContent = operResult;
+            displayResult.textContent = total;
 
             firstNumber = operResult;
 
             secondNumber = '';
             operator = '';
+            total = '';
         } else {
             console.log('404');
         }
     });
 }
 
-calculate()
 
-function calculate() {
-    const equal = document.querySelector("#equal");
-    equal.addEventListener('click', () => {
-        if (firstNumber !== '' && secondNumber !== '' && operator !== '') {
-            const num1 = parseFloat(firstNumber);
-            const num2 = parseFloat(secondNumber);
-            const operResult = operate(operator, num1, num2);
-            displayResult.textContent = operResult;
-            firstNumber = operResult.toString();
-            secondNumber = '';
-            operator = '';
-            calculationComplete = true; 
-        } else {
-            displayResult.textContent = 'Error'; 
-        }
-    });
-}
 
 function clearResultBox () {
     const clear = document.querySelector('#clear');
-    clear.addEventListener('click', (event) => {
-            displayResult.textContent = ''
+    clear.addEventListener('click', () => {
+            displayResult.textContent = '0'
             firstNumber = '';
             secondNumber = '';
+            total = '';
             operator = '';
         
     });
     
 };
 
-clearResultBox()
+
 
 function deleteLastChar () {
         const backspaceButton = document.querySelector('#backspace');
@@ -190,17 +155,16 @@ function deleteLastChar () {
     }
 
 
-deleteLastChar()
 
 function preventSelect () {
     const container = document.querySelectorAll('.screen');
-    container.forEach(elem => {
+    container.forEach(() => {
         container.addEventListener('dragstart', (event) => event.preventDefault());
         container.addEventListener('selectstart', (event) => event.preventDefault());
     })
 }
 
-preventSelect()
+
 
 function keyboardSupport() {
     window.addEventListener('keydown', function(event) {
@@ -250,3 +214,39 @@ function keyboardSupport() {
         event.preventDefault();  
     });
 };
+
+// helpers
+function clickNumber(num) {
+     num.addEventListener('click', (event) => {
+            const content = event.target.textContent;
+            
+            if (operator === '') {
+                firstNumber += content;
+                return displayResult.textContent = firstNumber;
+            } else {
+                secondNumber += content;
+                return displayResult.textContent = secondNumber;
+            }
+        });
+}
+
+function clickOperator (oper) {
+     oper.addEventListener('click', (event) => {
+            const content = event.target.textContent;
+            
+
+            if (firstNumber && secondNumber && operator) {
+                let operResult = operate(operator, Number(firstNumber), Number(secondNumber))
+                displayResult.textContent = operResult;
+                firstNumber = operResult
+                secondNumber = ''
+                operator = ''
+                
+            } else if (firstNumber) {
+                operator = content;
+            }
+
+
+            
+        });
+}
